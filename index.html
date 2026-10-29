@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WEB бағдарламалау — силлабус</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--w:440px;--h:610px;--gold:#e0b96e;--gold2:#a8793a;--leather:#4b2a16;--leather2:#2b1509;--parch:#f1e2c1;--ink:#3b2412;--acc:#7b3a1c;
+--noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+--dia:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cg fill='none' stroke='%23e0b96e' stroke-width='1'%3E%3Cpath d='M18 2 34 18 18 34 2 18Z'/%3E%3Ccircle cx='18' cy='18' r='5'/%3E%3Cpath d='M18 8v4M18 24v4M8 18h4M24 18h4'/%3E%3C/g%3E%3C/svg%3E")}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none;cursor:grab}
+body{font-family:'PT Serif',Georgia,'Times New Roman',serif;color:var(--ink);
+background:radial-gradient(ellipse at 50% 38%,#2a170b 0,#0f0805 45%,#030201 100%);}
+body::before{content:"";position:fixed;inset:0;background:var(--noise);opacity:.16;pointer-events:none}
+#stage{position:absolute;left:50%;top:calc(50% - 32px);width:calc(var(--w)*2);height:var(--h);transform:translate(-50%,-50%);transition:transform .9s cubic-bezier(.6,.05,.3,1);perspective:3200px}
+#scene,#world,#bw,#book{position:absolute;inset:0;transform-style:preserve-3d}
+#bw{transform:rotateX(90deg)}
+.dc{position:absolute;pointer-events:none;transform-style:preserve-3d}
+.fc{position:absolute}
+#scene{transition:transform .7s cubic-bezier(.3,.7,.3,1)}
+#book{transition:transform .9s cubic-bezier(.6,.05,.3,1)}
+#stage.dr,#stage.dr #scene{transition:none}
+.brd{position:absolute;background:var(--noise),linear-gradient(135deg,#5a3320,#2b1509);box-shadow:inset 0 0 0 2px var(--gold2),inset 0 0 0 6px var(--leather2),inset 0 0 0 7px rgba(224,185,110,.4);border-radius:5px}
+.edg{position:absolute;transform-origin:0 0;background:repeating-linear-gradient(90deg,#f2e4c3 0 1.4px,#c9b084 1.4px 2.4px)}
+.edg.v{background:repeating-linear-gradient(180deg,#f2e4c3 0 1.4px,#c9b084 1.4px 2.4px)}
+#tip{position:fixed;top:12px;left:0;right:0;text-align:center;color:#e0b96e;font-style:italic;font-size:12px;opacity:.75;pointer-events:none;z-index:40}
+.sheet{position:absolute;left:var(--w);top:0;width:var(--w);height:var(--h);transform-origin:left center;transform-style:preserve-3d;cursor:pointer}
+.seg{position:absolute;top:0;height:var(--h);transform-origin:left center;transform-style:preserve-3d}
+.wr{position:absolute;top:0;width:var(--w);height:var(--h)}
+.sh{position:absolute;inset:0;background:#2a1204;opacity:0;pointer-events:none;z-index:5}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.face.bk{transform:rotateY(180deg)}
+.pg{position:absolute;inset:0;background:var(--noise),linear-gradient(90deg,#e9d6ae,var(--parch) 12%,#f6ebcf 100%);}
+.pg.bk{background:var(--noise),linear-gradient(270deg,#e9d6ae,var(--parch) 12%,#f6ebcf 100%)}
+.pg::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(50,25,8,.4),transparent 9%);pointer-events:none;z-index:2}
+.pg.bk::before{background:linear-gradient(270deg,rgba(50,25,8,.4),transparent 9%)}
+.pg::after{content:"";position:absolute;inset:14px;border:3px double rgba(123,58,28,.5);pointer-events:none}
+.in{position:absolute;inset:14px;padding:26px 28px 34px;overflow:hidden;font-size:12.3px;line-height:1.42;scrollbar-width:thin;scrollbar-color:#a8793a transparent;z-index:1}
+.num{position:absolute;bottom:20px;left:0;right:0;text-align:center;font-style:italic;font-size:11px;color:var(--acc);z-index:3}
+h2{font-size:18px;text-align:center;color:var(--acc);margin-bottom:14px;line-height:1.2}
+h2::after{content:"❖ ✦ ❖";display:block;font-size:10px;letter-spacing:6px;color:var(--gold2);margin-top:6px}
+h3{font-size:13px;color:var(--acc);margin:10px 0 4px;font-style:italic}
+p{margin-bottom:7px;text-align:justify;hyphens:auto}
+.c{text-align:center}
+.r{display:flex;gap:9px;padding:3.5px 0;border-bottom:1px dotted rgba(123,58,28,.45)}
+.r b{flex:0 0 40px;color:var(--acc);font-weight:700}
+.r.k b{flex:0 0 138px}
+ul{padding-left:16px;margin-bottom:6px}li{margin-bottom:3px}
+.sm{font-size:11px}
+.sig{margin-top:22px;text-align:right;font-style:italic}
+table{width:100%;border-collapse:collapse;font-size:11.2px;margin-top:4px}
+td,th{border:1px solid rgba(123,58,28,.45);padding:3px 5px;text-align:center}
+th{background:rgba(123,58,28,.14);color:var(--acc)}
+td:last-child,th:last-child{text-align:left}
+.leather{background:var(--noise),radial-gradient(ellipse at 40% 30%,#6a3d22,var(--leather) 55%,var(--leather2));box-shadow:inset 0 0 40px rgba(0,0,0,.55)}
+.cov{border-radius:4px 12px 12px 4px}
+.cov.bk{border-radius:12px 4px 4px 12px}
+.cov::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.6),rgba(255,255,255,.06) 5%,transparent 8%,transparent 100%)}
+.cov.bk::before{background:linear-gradient(270deg,rgba(0,0,0,.6),rgba(255,255,255,.06) 5%,transparent 8%)}
+.fr{position:absolute;inset:24px;border:2px solid var(--gold);box-shadow:inset 0 0 0 5px transparent,inset 0 0 0 6px rgba(224,185,110,.55),0 0 0 1px rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:20px 22px;text-align:center;color:var(--gold)}
+.band{align-self:stretch;height:38px;background:var(--dia) repeat-x center;background-size:36px 36px;opacity:.75;border-top:1px solid var(--gold2);border-bottom:1px solid var(--gold2)}
+.uni{font-size:11.5px;letter-spacing:1.4px;line-height:1.5}
+.gt{background:linear-gradient(180deg,#fff0c2,#e0b96e 45%,#9a6a2c);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.7))}
+.ttl{font-size:50px;font-weight:700;line-height:1;letter-spacing:2px}
+.sub{font-style:italic;font-size:15px;margin-top:10px;color:#ecd29a}
+.hint{font-size:11px;font-style:italic;color:#d9b97a;animation:p 2.4s ease-in-out infinite}
+@keyframes p{50%{opacity:.35}}
+.emb{width:112px;height:112px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.7))}
+#bar{position:fixed;left:0;right:0;bottom:0;height:62px;display:flex;gap:10px;align-items:center;justify-content:center;background:linear-gradient(180deg,transparent,rgba(20,9,3,.85));z-index:50;padding:0 10px;flex-wrap:wrap}
+#bar button,#bar select{font:inherit;font-size:13px;color:#2b1509;background:linear-gradient(180deg,#f0d79c,#c99a52);border:1px solid #6b4416;border-radius:6px;padding:7px 14px;cursor:pointer;box-shadow:0 2px 4px rgba(0,0,0,.5)}
+#bar button:hover,#bar select:hover{filter:brightness(1.1)}
+#bar button:disabled{opacity:.45;cursor:default}
+#bar button:focus-visible,#bar select:focus-visible{outline:2px solid #fff;outline-offset:2px}
+#cnt{color:#e0b96e;font-style:italic;font-size:13px;min-width:70px;text-align:center}
+@media(prefers-reduced-motion:reduce){.sheet,#book,#stage{transition-duration:.01s}.hint{animation:none}}
+.wr{contain:layout paint style}
+#scene{will-change:transform}
+#dust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+@keyframes fl{0%,100%{opacity:1}30%{opacity:.8}55%{opacity:.95}75%{opacity:.72}}
+.flk{animation:fl 3.1s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div id="stage"><div id="scene"><div id="world"><div id="bw"><div id="book"></div></div></div></div></div>
+<div id="tip">Кітапты тартып бұрыңыз · дөңгелекпен жақындатыңыз</div>
+<div id="bar">
+<button id="pv">‹ Алдыңғы</button>
+<span id="cnt"></span>
+<button id="nx">Келесі ›</button>
+<select id="toc" aria-label="Мазмұны"></select>
+<button id="cl">Кітапты жабу</button>
+<button id="rs">⟲ Көрініс</button>
+<button id="sd" aria-pressed="true">🔊 Дыбыс</button>
+</div>
+<script>
+const W=440,H=610;
+const row=(a,b)=>`<div class="r"><b>${a}</b><span>${b}</span></div>`;
+const kv=(a,b)=>`<div class="r k"><b>${a}</b><span>${b}</span></div>`;
+const lec=["Клиент-серверлік архитектура. Web стандарттары","Интернет коммуникациясының моделі. Pull және Push","Қолданушының Интернетке кіруі. «Соңғы миля». Модем","Интернетке қатынасу: DSL, ISDN","Web серверлер. Статикалық және динамикалық беттер. CGI","Web-ресурстарды алу. Кэштау. Прокси-сервер","Интернеттің іздеу технологиялары","Электрондық пошта. E-mail протоколдары","FTP сервисі. FTP-клиенттер","Мәліметтерді қорғау. Цифрлық қолтаңба. Криптография","Пайдаланушыны идентификациялау. Cookies","Фреймдер, HTML мультимедиасы, формалар","Стильдердің сатылы кестелері (CSS)","JavaScript тілі. DOM, оқиғалар","Web-қосымшалар интерфейсі. HTTP. PHP негіздері"];
+const lab=["Visual Studio Code орнату","HTML және негізгі элементтер","HTML кестелері","HTML тізімдері: ol, ul, dl","Формалар, мультимедиа, фреймдер, iFrame","Мультимедиа тегтері: img, audio, video","CSS-ке кіріспе","CSS позициялау","CSS Flexbox және Grid","JavaScript-ке кіріспе","JS операторлары, циклдері, функциялары, объектілері","JS: DOM-мен өзара әрекеттесу","PHP-ке кіріспе. XAMPP серверін орнату","PHP: практикалық тапсырмалар","PHP + MySQL: тіркелу және кіру формасы"];
+const srs=[["1–2","Web технологиялардың даму эволюциясы: Web 1.0, 2.0, 3.0, W3C"],["3","PHP бағдарламалау тілі. Негізгі операторлар"],["4–5","Басқарушы конструкциялар"],["6","Массивтермен жұмыс"],["7–8","Екі өлшемді массивтер. Файлдар"],["10–11","MySQL-мен жұмыс істеуге арналған PHP функциялары"],["12","GET және POST әдістері"],["13","Функциялар, сессиялар және кукилар"],["14","ООП: мұрагерлік, конструктор, деструктор"],["15","Әдістерді қайта жүктеу. Класстарды автожүктеу"]];
+const lit=["Ибрагимов О.М., Нысанов Е.А., Құрақбаев Ж.С. Web-бағдарламалау негіздері. Алматы: TechSmith, 2024.","Асылбеков У.Б., Исмаилова А.А. Web-технологиялар. 1, 2-бөлім. Алматы: Бастау, 2019.","Бөрібаев Б., Абдрахманова М. Web-технологиялар: HTML және PHP тілдері. Алматы, 2015.","Бөрібаев Б., Абдрахманова М. Web-технологиялар: JavaScript және PHP тілдері. Алматы, 2023."];
+const scale=[["A","4,0","95–100","Өте жақсы"],["A-","3,67","90–94","Өте жақсы"],["B+","3,33","85–89","Жақсы"],["B","3,0","80–84","Жақсы"],["B-","2,67","75–79","Жақсы"],["C+","2,33","70–74","Қанағаттанарлық"],["C","2,0","65–69","Қанағаттанарлық"],["C-","1,67","60–64","Қанағаттанарлық"],["D+","1,33","55–59","Қанағаттанарлық"],["D","1,0","50–54","Қанағаттанарлық"],["FX","0,5","25–49","Қанағаттанарлықсыз"],["F","0","0–24","Қанағаттанарлықсыз"]];
+const P=[
+`<p class="c sm">ҚАЗАҚСТАН РЕСПУБЛИКАСЫ АУЫЛ ШАРУАШЫЛЫҒЫ МИНИСТРЛІГІ<br>«С.СЕЙФУЛЛИН атындағы ҚАЗАҚ АГРОТЕХНИКАЛЫҚ ЗЕРТТЕУ УНИВЕРСИТЕТІ» КеАҚ</p>
+<h2 style="margin-top:60px">БЕКІТЕМІН</h2><p class="c">Бизнес және цифрлық технологиялар институтының директоры</p><p class="sig">М. Е. Сабырова<br>«26» маусым 2026 ж.</p>
+<p class="c" style="margin-top:90px;font-style:italic">Астана, 2026</p>`,
+`<h2>ПӘННІҢ ЖҰМЫС БАҒДАРЛАМАСЫ<br>(силлабус)</h2>
+${kv("Пәні","«WEB бағдарламалау»")}${kv("Білім беру бағдарламасы","6В06101 «Бағдарламалық инженерия»")}${kv("БББ тобы","B057 «Ақпараттық технологиялар»")}${kv("Дайындық бағыты","6В061 Ақпараттық-коммуникациялық технологиялар")}${kv("Білім беру саласы","6В06 Ақпараттық коммуникациялық технологиялар")}${kv("Курс / семестр","3 курс / 1 семестр")}${kv("Кредит саны","5")}
+<h3>Сағат саны</h3>${kv("Дәрістер","15")}${kv("Зертханалық сабақтар","30")}${kv("Өзіндік жұмыс (БӨЖ)","85")}${kv("Оқытушымен (БОӨЖ)","20")}${kv("Барлығы","150")}${kv("Пәндер циклі","БП")}${kv("Бақылау формасы","емтихан")}`,
+`<h2>Бекіту және мақұлдау</h2>
+<p>Силлабус 2023 жылғы 26 мамырдағы университет Ғылыми кеңесінің №16 хаттамасымен бекітілген «6В06101 — Бағдарламалық инженерия» білім беру бағдарламасы негізінде жасалды.</p>
+<h3>БББТ отырысы</h3><p>«Ақпараттық жүйелер» БББТ отырысында қаралды және мақұлданды. Хаттама №10, 15 маусым 2026 ж.</p><p class="sig">БББТ жетекшісі Шаушенова А.Г.</p>
+<h3>Академиялық сапа кеңесі</h3><p>Бизнес және цифрлық технологиялар институтының Академиялық сапа жөніндегі кеңесінің отырысында қаралды және ұсынылды. Хаттама №11, 24 маусым 2026 ж.</p><p class="sig">Кеңес төрайымы Касимбекова М.А.</p>`,
+`<h2>Курстың қысқаша сипаттамасы</h2>
+<h3>Оқытушы туралы мәлімет</h3><p>Найзағараева Ақгүл Аманжолқызы — «Ақпараттық жүйелер» БББТ-ның PhD, аға оқытушысы. Кабинеттер: 2408, 2410, 2406 (сабақ кестесі бойынша).</p>
+<h3>Пәнді оқыту мақсаты</h3><p>Web-технологиялар негіздерін, Интернет желісіне қатынас жасау технологияларын, Интернеттегі web-серверлерді, статикалық және динамикалық web-сайттарды, қолданбалы бағдарламаларды және бағдарламалау арқылы Web-жобалау негіздерін қарастыру.</p>`,
+`<h2>Оқыту нәтижелері</h2>
+<h3>ON 7</h3><p>Бағдарламалау технологиясы құралдарымен әртүрлі күрделіліктегі есептерді шешу, БҚ компоненттерін инспекциялау.</p><ul class="sm"><li>IP протоколдарының 4 және 6 нұсқалары</li><li>IP туннелдері, браузерлер ерекшеліктері</li><li>сайттарды жобалау</li></ul>
+<h3>ON 8</h3><p>АТ жобасын жоспарлау, БҚ мен қолданбалы АЖ енгізу, бейімдеу және күйге келтіру.</p><ul class="sm"><li>гипермәтіндік ақпараттық жүйелерді құру принциптері</li><li>HTML, CSS, JavaScript, HTML5, Ajax, jQuery, XML</li></ul>
+<h3>ON 10</h3><p>Интернетті ұйымдастыру қағидаттарын пайдалану, ақпараттық қауіпсіздік қатерлеріне талдау жүргізу.</p><ul class="sm"><li>PHP, PHP7; Yii, Laravel</li><li>SQL; MySQL, PostgreSQL</li></ul>`,
+`<h2>Пререквизиттер мен постреквизиттер</h2>
+<h3>Пререквизиттер</h3><ul><li>Ақпараттық жүйелер негіздері</li><li>Алгоритмдеу және бағдарламалау негіздері</li><li>Ақпараттық жүйелердегі деректер қоры</li><li>Бағдарламалау технологиялары</li><li>Объектіге-бағытталған бағдарламалау</li></ul>
+<h3>Постреквизиттер</h3><p>Мамандандыру пәндері. Студенттер алған білімдері мен дағдыларын курстық жобалауда, диплом жұмыстарында және болашақ кәсіби қызметінде қолданады.</p>
+<h3>Академиялық адалдық</h3><p>Студент академиялық адалдық қағидаттарын және жасанды интеллект құралдарын этикалық пайдалану талаптарын сақтайды, ЖИ арқылы алынған ақпараттың дұрыстығын бағалайды.</p>`,
+`<h2>Дәрістер · 1–8 апта</h2>${lec.slice(0,8).map((t,i)=>row(i+1,t)).join("")}`,
+`<h2>Дәрістер · 9–15 апта</h2>${lec.slice(8).map((t,i)=>row(i+9,t)).join("")}<p class="c sm" style="margin-top:14px;font-style:italic">Барлығы: 15 сағат</p>`,
+`<h2>Зертханалық сабақтар · 1–8 апта</h2>${lab.slice(0,8).map((t,i)=>row(i+1,t)).join("")}`,
+`<h2>Зертханалық сабақтар · 9–15 апта</h2>${lab.slice(8).map((t,i)=>row(i+9,t)).join("")}<p class="c sm" style="margin-top:14px;font-style:italic">Әр сабақ — 2 сағат, барлығы 30 сағат</p>`,
+`<h2>БӨЖ тапсырмалары</h2><p class="sm">Тапсырмаларды орындау және тапсыру кестесі (аптамен).</p>${srs.map(a=>row(a[0],a[1])).join("")}`,
+`<h2>Оқытудың формалары мен әдістері</h2>
+<p><b>Дәрістер</b> — түсіндірмелі-иллюстрациялық, мәселелік баяндау, эвристикалық және зерттеушілік түрде өтеді.</p>
+<p><b>Практикалық сабақтар</b> — тапсырмаларды шешу, пікірталас, кейс талдау, жобалық әдіс, топтық жұмыс.</p>
+<p><b>Бақылау</b> — жазбаша жұмыстар, Platonus жүйесіндегі ағымдық тест, коллоквиум.</p>
+<p><b>Өзіндік жұмыс</b> — дәріс материалын қайталау, қосымша әдебиет оқу, жеке жобалық және зерттеу тапсырмалары, презентация дайындау.</p>`,
+`<h2>Әдебиеттер тізімі</h2><h3>Негізгі</h3><ul class="sm">${lit.map(x=>`<li>${x}</li>`).join("")}</ul>
+<h3>Қосымша</h3><ul class="sm"><li>Фримен Э. Изучаем HTML, XHTML и CSS. Питер, 2010.</li><li>Флэнаган Д. JavaScript. Подробное руководство. 2013.</li><li>Макфарланд Д. Новая большая книга CSS. 2016.</li><li>Никсон Р. Создаем динамические веб-сайты с помощью PHP, MySQL, JavaScript, CSS и HTML5. 2019.</li></ul>
+<h3>Электрондық ресурстар</h3><p class="sm">MDN Web Docs · W3Schools · JavaScript.info · HTML Academy</p>`,
+`<h2>Курстың саясаты</h2>
+<p>Курс «С. Сейфуллин атындағы ҚАТЗУ» КеАҚ Академиялық саясатына сәйкес ұйымдастырылған. Оқытушы мен студенттер Академиялық адалдық кодексін ұстанады; ЖИ құралдары университет саясаты мен оқытушы талаптарына сәйкес қолданылады.</p>
+<p>Барлық студенттерге тақырыптарды талқылауға тең мүмкіндік беріледі, шығармашылық көзқарас құпталады.</p>
+<ul><li>тапсырманы кешіктіргені үшін балл әр аптаға 10% кемиді; 2 аптадан артық кешіктіруге болмайды;</li><li>тапсырылмаған тапсырмаға «0» балл қойылады;</li><li>себепсіз қатыспаған бақылау жұмысына «0» балл қойылады.</li></ul>`,
+`<h2>Бағалау саясаты</h2>
+<p>Оқу жетістіктері халықаралық практикадағы әріптік жүйеге сәйкес 100 балдық шкала бойынша бағаланады. Рейтинг аралық бақылау нәтижелері бойынша 7 және 15 апта соңында есептеледі.</p>
+<h3>Формулалар</h3><p class="c"><b>1АБ (2) = (1АБ (2) жалпы + 1АБ (2)) / 2</b></p><p class="c"><b>ҚР = (1Р + 2Р) / 2</b></p>
+<p>Студент қабылдау рейтингі (ҚР) <b>50%-дан кем емес</b> болғанда ғана емтиханға жіберіледі.</p>`,
+`<h2>Бағалау шкаласы</h2><table><tr><th>Әріп</th><th>Балл</th><th>%</th><th>Баға</th></tr>${scale.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</table>
+<p class="sm" style="margin-top:8px">«A» — HTML5, CSS3, JavaScript мүмкіндіктерін кәсіби деңгейде қолданады, асинхронды бағдарламалау мен API-мен жұмысты меңгерген, күрделі Web-қосымшаларды дербес әзірлейді.</p>`,
+`<h2>Академиялық адалдық</h2><p>Оқу барысында өз жұмысыңызға адал болыңыз. Дереккөздердің сенімділігін тексеріңіз, ЖИ құралдарын этикалық түрде қолданыңыз және нәтижелерді өздігінен бағалаңыз.</p><p class="c" style="margin-top:50px;font-size:28px;color:var(--gold2)">❦</p><p class="c" style="font-style:italic">Сәттілік тілейміз!</p>`,
+`<div style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center"><div style="font-size:34px;color:var(--gold2)">❦</div><h2 style="margin-top:14px">Соңы</h2><p class="c sm">С.Сейфуллин атындағы ҚАЗАҚ АГРОТЕХНИКАЛЫҚ ЗЕРТТЕУ УНИВЕРСИТЕТІ<br>Астана, 2026</p></div>`
+];
+const emb=`<svg class="emb" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0c2"/><stop offset=".5" stop-color="#e0b96e"/><stop offset="1" stop-color="#9a6a2c"/></linearGradient></defs><g fill="none" stroke="url(#g)" stroke-width="2.5"><circle cx="60" cy="60" r="54"/><circle cx="60" cy="60" r="46" stroke-width="1"/><path d="M60 8v10M60 102v10M8 60h10M102 60h10" /></g><text x="60" y="71" text-anchor="middle" font-family="Georgia,serif" font-size="32" font-weight="700" fill="url(#g)">&lt;/&gt;</text></svg>`;
+const cover=`<div class="face leather cov"><div class="fr"><div class="uni gt">«С.СЕЙФУЛЛИН атындағы<br>ҚАЗАҚ АГРОТЕХНИКАЛЫҚ<br>ЗЕРТТЕУ УНИВЕРСИТЕТІ»</div><div class="band"></div>${emb}<div><div class="ttl gt">WEB</div><div class="ttl gt" style="font-size:34px;margin-top:4px">бағдарламалау</div><div class="sub">Пәннің жұмыс бағдарламасы (силлабус)</div></div><div class="band"></div><div><div class="uni gt">Бағдарламалық инженерия · 3 курс</div><div class="hint" style="margin-top:8px">Ашу үшін басыңыз</div></div></div></div>`;
+const backCover=`<div class="face bk leather cov bk"><div class="fr" style="justify-content:center;gap:24px"><div class="band"></div>${emb}<div class="uni gt">Астана · 2026</div><div class="band"></div></div></div>`;
+const sheets=[],st=[],NS=6,SW=W/NS,CURL=9,N=10,book=document.getElementById('book'),stage=document.getElementById('stage');
+const body=(i,side)=>`<div class="pg ${side}"><div class="in">${P[i]}</div><div class="num">— ${i+1} —</div></div>`;
+const chain=(fr,bk)=>{let h='';for(let i=NS-1;i>=0;i--){h=`<div class="seg" style="left:${i?SW:0}px;width:${SW+(i<NS-1?1:0)}px"><div class="face"><div class="wr" style="left:${-i*SW}px">${fr}</div><div class="sh"></div></div><div class="face bk"><div class="wr" style="left:${-(W-(i+1)*SW)}px">${bk}</div><div class="sh"></div></div>${h}</div>`}return h};
+for(let k=0;k<N;k++){
+ const s=document.createElement('div');s.className='sheet';
+ s.innerHTML=k==0?cover+`<div class="face bk">${body(0,'bk')}</div>`:k==N-1?`<div class="face">${body(17,'')}</div>`+backCover:chain(body(2*k-1,''),body(2*k,'bk'));
+ s.addEventListener('click',()=>{if(moved>5)return;if(k==cur-1)go(k);else if(k==cur)go(k+1)});
+ book.appendChild(s);sheets.push(s);
+ const segs=[...s.querySelectorAll('.seg')];segs.forEach(g=>g._sh=[...g.querySelectorAll(':scope>.face>.sh')]);
+ st.push({el:s,segs:segs.length?segs:null,p:0,tgt:0,raf:0,moving:false});
+}
+const T=78,ZS=T/N,scene=document.getElementById('scene');
+const el=(c,css)=>{const d=document.createElement('div');d.className=c;d.style.cssText=css;book.appendChild(d);return d};
+el('brd',`left:${W}px;top:-8px;width:${W+8}px;height:${H+16}px;transform:translateZ(-4px)`);
+el('brd',`left:-8px;top:-8px;width:${W+8}px;height:${H+16}px;transform:translateZ(-4px)`);
+const spn=el('brd',`transition:width .9s,transform .9s;left:${W}px;top:-8px;width:${T+8}px;height:${H+16}px;transform-origin:0 0;transform:translateZ(${T+4}px) rotateY(90deg)`);
+spn.style.overflow='hidden';
+spn.innerHTML='<div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(255,255,255,.12) 30%,transparent 55%,rgba(0,0,0,.5))"></div>'+[8,15,85,92].map(p=>`<i style="position:absolute;left:0;right:0;top:${p}%;height:7px;background:linear-gradient(180deg,#fff0c2,#a8793a);box-shadow:0 1px 2px #000"></i>`).join('')+'<div class="gt" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-size:30px;font-weight:700;letter-spacing:6px">WEB · бағдарламалау</div>';
+const shd=el('dc','top:-60px;height:'+(H+120)+'px;transform:translateZ(-6px);background:radial-gradient(ellipse,rgba(0,0,0,.75),transparent 68%)');
+const eg={};['fr','fl','tr','br','tl','bl'].forEach(k=>eg[k]=el('edg'+('tb'.includes(k[0])?' v':''),'display:none'));
+function edges(){
+ const sw=(cur==0||cur==N)?T+8:8;spn.style.width=sw+'px';spn.style.transform=`translateZ(${sw-4}px) rotateY(90deg)`;
+ const zr=(N-cur)*ZS,zl=cur*ZS,S=(e,on,css)=>{e.style.cssText=on?css:'display:none'};
+ S(eg.fr,cur<N,`left:${2*W}px;top:0;width:${zr+4}px;height:${H}px;transform:translateZ(${zr}px) rotateY(90deg)`);
+ S(eg.tr,cur<N,`left:${W}px;top:0;width:${W}px;height:${zr+4}px;transform:translateZ(${zr}px) rotateX(-90deg)`);
+ S(eg.br,cur<N,`left:${W}px;top:${H}px;width:${W}px;height:${zr+4}px;transform:translateZ(${zr}px) rotateX(-90deg)`);
+ S(eg.fl,cur>0,`left:0;top:0;width:${zl+4}px;height:${H}px;transform:translateZ(${zl}px) rotateY(90deg)`);
+ S(eg.tl,cur>0,`left:0;top:0;width:${W}px;height:${zl+4}px;transform:translateZ(${zl}px) rotateX(-90deg)`);
+ S(eg.bl,cur>0,`left:0;top:${H}px;width:${W}px;height:${zl+4}px;transform:translateZ(${zl}px) rotateX(-90deg)`);
+}
+let rq=0;function rot(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;scene.style.transform=`rotateX(${-rx}deg) rotateY(${ry}deg)`})}
+
+/* Қараңғы зал: мінбер (трибуна), еден, бағаналар және төбедегі шам */
+const world=document.getElementById('world');
+const dc=(w,h,css,bg)=>{const d=document.createElement('div');d.className='dc';d.style.cssText=`left:${W-w/2}px;top:${H/2-h/2}px;width:${w}px;height:${h}px;background:${bg||'none'};${css}`;world.appendChild(d);return d};
+function box(w,h,d,x,y,z,sd,tp){
+ const b=dc(w,h,`transform:translate3d(${x}px,${y}px,${z}px)`);
+ const f=(fw,fh,tr,bg)=>{const e=document.createElement('div');e.className='fc';e.style.cssText=`width:${fw}px;height:${fh}px;left:${(w-fw)/2}px;top:${(h-fh)/2}px;transform:${tr};background:${bg}`;b.appendChild(e)};
+ f(w,h,`translateZ(${d/2}px)`,sd);f(w,h,`rotateY(180deg) translateZ(${d/2}px)`,sd);
+ f(d,h,`rotateY(90deg) translateZ(${w/2}px)`,sd);f(d,h,`rotateY(-90deg) translateZ(${w/2}px)`,sd);
+ f(w,d,`rotateX(90deg) translateZ(${h/2}px)`,tp||sd);f(w,d,`rotateX(-90deg) translateZ(${h/2}px)`,sd);
+}
+const wood='repeating-linear-gradient(90deg,#4b2b16 0 7px,#3d2312 7px 12px)';
+dc(4400,4400,'transform:translateY(553px) rotateX(90deg)','radial-gradient(circle,rgba(255,196,120,.5) 0,rgba(255,170,90,.16) 9%,transparent 22%),repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 2px,transparent 2px 180px),repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 2px,transparent 2px 180px),#0d0704');
+box(640,34,500,0,533,0,'#2a170b','#341d0f');
+box(300,480,260,0,276,0,wood,wood);
+box(1040,28,740,0,22,0,'repeating-linear-gradient(90deg,#3a2110 0 7px,#2e1a0d 7px 12px)','radial-gradient(ellipse at center,#8a5630 0,#4a2c16 60%,#2d190c)');
+for(let i=0;i<8;i++){const a=i*Math.PI/4+Math.PI/8;box(120,1100,120,1500*Math.cos(a),0,1500*Math.sin(a),'linear-gradient(90deg,#0b0603,#24150b 55%,#0a0502)','#120a05')}
+const Ly=-430;
+[0,90].forEach(a=>dc(5,150,`transform:translate3d(0,${Ly-110}px,0) rotateY(${a}deg)`,'#1a1208'));
+for(let i=0;i<14;i++)dc(96,140,`transform-origin:50% 0;transform:translateY(${Ly-30}px) rotateY(${i*360/14}deg) translateZ(46px) rotateX(47deg);clip-path:polygon(30% 0,70% 0,100% 100%,0 100%)`,'linear-gradient(#2c6e54,#0f2c22)');
+const glow='radial-gradient(circle,#fffbe8 0,#ffe3a1 22%,rgba(255,196,100,.55) 45%,transparent 70%)';
+[0,60,120].forEach(a=>dc(210,210,`transform:translate3d(0,${Ly+10}px,0) rotateY(${a}deg)`,glow).classList.add('flk'));
+[0,60,120].forEach(a=>dc(680,300,`transform:translate3d(0,${Ly+175}px,0) rotateY(${a}deg);clip-path:polygon(47% 0,53% 0,100% 100%,0 100%)`,'linear-gradient(180deg,rgba(255,205,130,.30),rgba(255,190,110,.07) 70%,transparent)'));
+
+/* Бөлме: қабырғалар, төбе, кілем, еден, шырақтар */
+const OCT='polygon(96.19% 69.13%,69.13% 96.19%,30.87% 96.19%,3.81% 69.13%,3.81% 30.87%,30.87% 3.81%,69.13% 3.81%,96.19% 30.87%)';
+dc(3000,3000,`transform:translateY(-552px) rotateX(-90deg);backface-visibility:hidden;transform-style:flat;clip-path:${OCT}`,'radial-gradient(circle,rgba(255,190,110,.22),transparent 40%),repeating-linear-gradient(90deg,#0d0603 0 46px,transparent 46px 420px),repeating-linear-gradient(0deg,#0d0603 0 46px,transparent 46px 420px),#2a170b');
+dc(3000,3000,`transform:translateY(552px) rotateX(90deg);transform-style:flat;clip-path:${OCT}`,'radial-gradient(circle,rgba(255,200,120,.3),transparent 38%),conic-gradient(rgba(60,38,20,.55) 25%,rgba(8,4,2,.55) 0 50%,rgba(60,38,20,.55) 0 75%,rgba(8,4,2,.55) 0) 0 0/300px 300px');
+dc(1300,1300,'transform:translateY(550px) rotateX(90deg);border-radius:50%;transform-style:flat;box-shadow:0 0 60px #000','repeating-radial-gradient(circle,#4a0f10 0 56px,#c9a24a 56px 60px,#6b1d17 60px 130px,#c9a24a 130px 133px,#2a0808 133px 190px)');
+const VIG='<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(255,200,130,.14),rgba(0,0,0,.62) 88%)"></div>';
+const WB='radial-gradient(ellipse at 50% 40%,rgba(255,170,100,.12),transparent 70%),repeating-linear-gradient(90deg,rgba(0,0,0,.25) 0 3px,transparent 3px 72px),linear-gradient(180deg,#160a07,#3a1a14 55%,#241008)';
+const SHL='linear-gradient(180deg,#0c0603 0 26px,transparent 26px 196px,#4a2c14 196px 222px,#170b04 222px 230px) 0 0/100% 230px repeat-y,repeating-linear-gradient(90deg,#6b2d1f 0 13px,#1f3a4b 13px 30px,#7d5d22 30px 40px,#3d2a52 40px 58px,#2e4d2b 58px 68px,#8c3c2d 68px 88px,#c9ad6a 88px 93px,#24201c 93px 111px) 0 0/100% 230px repeat-y';
+const rail='<div style="position:absolute;left:0;right:0;bottom:0;height:300px;background:repeating-linear-gradient(90deg,#3d2412 0 150px,#1e1006 150px 154px);border-top:12px solid #5a3820;box-shadow:inset 0 30px 40px rgba(0,0,0,.5)"></div>';
+const ab=(l,t,w,h,css)=>`<div style="position:absolute;left:${l}px;top:${t}px;width:${w}px;height:${h}px;${css}"></div>`;
+const curt=l=>ab(l,100,70,640,'background:repeating-linear-gradient(90deg,#4a0f12 0 9px,#8a2a2a 9px 18px)');
+const win=rail+ab(444,120,260,600,'border-radius:130px 130px 0 0;border:16px solid #3a2110;background:linear-gradient(90deg,transparent 47%,#3a2110 47% 53%,transparent 53%),linear-gradient(0deg,transparent 0 33%,#3a2110 33% 35%,transparent 35% 66%,#3a2110 66% 68%,transparent 68%),radial-gradient(circle at 70% 25%,#fff 0,#dfe8ff 4%,transparent 5%),linear-gradient(#0b1530,#1d3560 70%,#3a5a8a);box-shadow:0 0 160px 50px rgba(120,160,255,.2)')+curt(360)+curt(718);
+const fire=rail+ab(424,130,300,380,'border:14px solid #c9a24a;background:linear-gradient(135deg,#1c2a1f,#3a4d3a 50%,#14201a);box-shadow:0 0 0 4px #5a3820,inset 0 0 50px #000')+`<div style="position:absolute;left:374px;bottom:0;width:400px;height:480px;background:repeating-linear-gradient(0deg,#3a3835 0 38px,#242220 38px 42px),#2e2c2a;border-top:26px solid #5a3820;box-shadow:inset 0 0 60px #000"><div class="flk" style="position:absolute;left:60px;right:60px;bottom:0;height:300px;border-radius:150px 150px 0 0;background:radial-gradient(ellipse at 50% 100%,#ffd070,#e0561a 35%,#3a0e04 75%);box-shadow:0 0 220px 90px rgba(255,120,40,.35)"></div></div>`;
+const mapw=rail+ab(314,170,520,360,'border:16px solid #c9a24a;background:var(--noise),linear-gradient(135deg,#e6cf9a,#caa868);box-shadow:0 0 0 5px #3a2110,inset 0 0 60px rgba(90,50,10,.6)');
+for(let i=0;i<8;i++){
+ const th=i*45,a=th*Math.PI/180,sh=i%2==0;
+ const d=dc(1148,1100,`transform:translate3d(${1386*Math.cos(a)}px,0,${1386*Math.sin(a)}px) rotateY(${-th-90}deg);backface-visibility:hidden;transform-style:flat`,sh?SHL:WB);
+ d.innerHTML=(sh?'':[win,fire,mapw,win][(i-1)>>1])+VIG;
+}
+[[490,-340],[-490,340]].forEach(([x,z],k)=>{
+ box(16,70,16,x,-27,z,'linear-gradient(90deg,#d8c9a0,#f4ecd0,#bfae82)','#f4ecd0');
+ [0,90].forEach(a=>{const f=dc(40,60,`transform:translate3d(${x}px,-95px,${z}px) rotateY(${a}deg)`,'radial-gradient(ellipse at 50% 70%,#fff6c4 0,#ffc04d 35%,rgba(255,120,30,.5) 60%,transparent 72%)');f.classList.add('flk');f.style.animationDelay=-k*1.3+'s'});
+ const g=dc(240,240,`transform:translate3d(${x}px,-90px,${z}px)`,glow);g.style.opacity=.5;
+});
+box(34,34,34,-490,-9,-335,'#10161f','#1b2433');
+/* Шаң бөлшектері: жеңіл 2D кенеп */
+const cv=document.createElement('canvas');cv.id='dust';document.body.appendChild(cv);
+const cx=cv.getContext('2d'),MT=[...Array(44)].map(()=>({x:Math.random(),y:Math.random(),r:.6+Math.random()*1.5,s:.01+Math.random()*.03,p:Math.random()*6}));
+const rz=()=>{cv.width=innerWidth>>1;cv.height=innerHeight>>1};rz();addEventListener('resize',rz);
+let lt=0;(function dust(t){requestAnimationFrame(dust);if(document.hidden)return;const dt=Math.min(50,t-lt);lt=t;cx.clearRect(0,0,cv.width,cv.height);
+ for(const m of MT){m.y-=m.s*dt/1000;m.x+=Math.sin(t/2500+m.p)*.00015*dt;if(m.y<-.02){m.y=1.02;m.x=Math.random()}
+  cx.fillStyle=`rgba(255,214,150,${.25+.35*Math.sin(t/900+m.p)**2})`;cx.beginPath();cx.arc(m.x*cv.width,m.y*cv.height,m.r,0,6.3);cx.fill()}})(0);
+const vg=document.createElement('div');vg.className='dc';
+vg.style.cssText=`left:-150px;top:-150px;width:${2*W+300}px;height:${H+300}px;transform:translateZ(70px);background:radial-gradient(ellipse at center,rgba(255,214,150,.07) 0,transparent 38%,rgba(0,0,0,.38) 80%)`;
+document.getElementById('bw').appendChild(vg);
+/* Қағаздың иілуімен бұралуы: әр парақ 8 жолақтан тұрады */
+function setT(j,t){
+ const s=st[j],th=180*t,z=(N-j)*ZS+(2*j-N)*ZS*t+(s.moving?9*Math.sin(Math.PI*t):0);
+ s.el.style.transform=`translateZ(${z}px) rotateY(${-th}deg)`;
+ if(!s.segs)return;
+ const r=CURL*Math.sin(2*Math.PI*t);
+ s.segs.forEach((g,i)=>{
+  if(i)g.style.transform=`rotateY(${r}deg)`;
+  const o=(.3*Math.abs(Math.sin((-th+i*r)*Math.PI/180))).toFixed(3);
+  g._sh[0].style.opacity=o;g._sh[1].style.opacity=o;
+ });
+}
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function anim(j){
+ const s=st[j];cancelAnimationFrame(s.raf);
+ const from=s.p,to=s.tgt,t0=performance.now(),dur=reduce?10:1300*Math.max(.4,Math.abs(to-from));
+ s.moving=true;
+ const step=now=>{const u=Math.min(1,(now-t0)/dur);s.p=from+(to-from)*(1-Math.cos(Math.PI*u))/2;setT(j,s.p);if(u<1)s.raf=requestAnimationFrame(step);else{s.moving=false;setT(j,s.p)}};
+ s.raf=requestAnimationFrame(step);
+}
+
+/* Табиғи дыбыстар: Web Audio арқылы синтезделген (сыртқы файлдарсыз) */
+let AC=null,NB=null,snd=true;
+function ac(){
+ if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)();const l=AC.sampleRate*2,b=AC.createBuffer(1,l,AC.sampleRate),d=b.getChannelData(0);let last=0;for(let i=0;i<l;i++){const w=Math.random()*2-1;last=(last+.02*w)/1.02;d[i]=(w*.6+last*6)*.5}NB=b}catch(e){AC=null}}
+ if(AC&&AC.state==='suspended')AC.resume();return AC;
+}
+function noise(t,dur,type,f0,f1,q,vol,att){
+ const s=AC.createBufferSource();s.buffer=NB;s.loop=true;
+ const f=AC.createBiquadFilter();f.type=type;f.Q.value=q;f.frequency.setValueAtTime(f0,t);f.frequency.exponentialRampToValueAtTime(f1,t+dur);
+ const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+ s.connect(f).connect(g).connect(AC.destination);s.start(t,Math.random());s.stop(t+dur+.05);
+}
+function thump(t,vol){
+ const o=AC.createOscillator(),g=AC.createGain();
+ o.frequency.setValueAtTime(110,t);o.frequency.exponentialRampToValueAtTime(45,t+.25);
+ g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+.3);
+ o.connect(g).connect(AC.destination);o.start(t);o.stop(t+.35);
+ noise(t,.18,'lowpass',700,200,.7,vol*.8,.005);
+}
+function creak(t,dur,up){
+ const o=AC.createOscillator(),f=AC.createBiquadFilter(),g=AC.createGain(),l=AC.createOscillator(),lg=AC.createGain();
+ o.type='sawtooth';o.frequency.setValueAtTime(up?150:230,t);o.frequency.linearRampToValueAtTime(up?240:140,t+dur);
+ l.frequency.value=23;lg.gain.value=9;l.connect(lg).connect(o.frequency);
+ f.type='bandpass';f.frequency.value=700;f.Q.value=3;
+ g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.035,t+dur*.3);g.gain.linearRampToValueAtTime(.0001,t+dur);
+ o.connect(f).connect(g).connect(AC.destination);o.start(t);l.start(t);o.stop(t+dur+.05);l.stop(t+dur+.05);
+}
+function pageSnd(d){
+ const t=AC.currentTime+d;
+ noise(t,1,'bandpass',900,3200,.9,.22,.4);
+ noise(t+.1,.8,'highpass',2500,6000,.5,.07,.3);
+ noise(t+1.1,.09,'lowpass',1800,500,.7,.16,.005);
+}
+function coverSnd(open){
+ const t=AC.currentTime;
+ creak(t,1.1,open);
+ noise(t,1,'lowpass',500,900,.7,.1,.4);
+ thump(t+1.15,open?.28:.42);
+}
+function playFor(old,n){
+ if(!snd||!ac())return;
+ if(old===0||n===0||old===N||n===N){coverSnd(old===0||old===N)}
+ else{const c=Math.min(Math.abs(n-old),4);for(let i=0;i<c;i++)pageSnd(i*.15)}
+}
+document.getElementById('sd').onclick=e=>{snd=!snd;e.currentTarget.textContent=snd?'🔊 Дыбыс':'🔇 Дыбыс';e.currentTarget.setAttribute('aria-pressed',snd);if(snd)ac()};
+let cur=0,rx=50,ry=-8,zm=1,drag=null,moved=0;
+function fit(){
+ const need=(cur==0||cur==N)?W+90:2*W+70;
+ const s=Math.min(innerWidth/need,(innerHeight-130)/(H+30))*zm*.92;
+ stage.style.transform=`translate(-50%,-50%) scale(${s})`;
+}
+function go(n,instant){
+ n=Math.max(0,Math.min(N,n));const old=cur;cur=n;
+ if(!instant&&old!==cur)playFor(old,cur);
+ st.forEach((s,j)=>{
+  const tg=j<cur?1:0;
+  if(instant){s.tgt=tg;s.p=tg;setT(j,tg);return}
+  if(s.tgt===tg)return;
+  s.tgt=tg;
+  const k=cur>old?j-old:old-1-j;
+  setTimeout(()=>anim(j),Math.min(Math.max(k,0),5)*110);
+ });
+ book.style.transform=cur==0?`translateX(${-W/2}px)`:cur==N?`translateX(${W/2}px)`:'none';
+ document.body.classList.toggle('open',cur>0&&cur<N);
+ edges();fit();shd.style.left=cur==0?W-40+'px':'-40px';shd.style.width=((cur==0||cur==N)?W+80:2*W+80)+'px';
+ document.getElementById('cnt').textContent=cur==0?'Мұқаба':cur==N?'Соңы':`${2*cur-1}–${2*cur} / ${P.length}`;
+ document.getElementById('pv').disabled=cur==0;document.getElementById('nx').disabled=cur==N;
+ document.getElementById('cl').textContent=cur==0?'Кітапты ашу':'Кітапты жабу';
+}
+const toc=document.getElementById('toc');
+toc.innerHTML='<option value="">Мазмұны</option>'+[["Титул беті",0],["Курс сипаттамасы",3],["Дәрістер",6],["Зертханалық сабақтар",8],["БӨЖ",10],["Әдебиеттер",12],["Курс саясаты",13],["Бағалау",14]].map(a=>`<option value="${Math.floor(a[1]/2)+1}">${a[0]}</option>`).join('');
+toc.onchange=()=>{if(toc.value!==''){go(+toc.value);toc.value=''}};
+document.getElementById('pv').onclick=()=>go(cur-1);
+document.getElementById('nx').onclick=()=>go(cur+1);
+document.getElementById('cl').onclick=()=>go(cur==0?1:0);
+addEventListener('keydown',e=>{if(e.key=='ArrowRight')go(cur+1);if(e.key=='ArrowLeft')go(cur-1)});
+addEventListener('resize',fit);
+document.getElementById('rs').onclick=()=>{rx=50;ry=-8;zm=1;rot();fit()};
+document.addEventListener('pointerdown',e=>{if(e.target.closest('#bar'))return;drag={x:e.clientX,y:e.clientY,rx,ry};moved=0});
+addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;moved=Math.max(moved,Math.hypot(dx,dy));
+ if(moved>5){stage.classList.add('dr');ry=drag.ry+dx*.35;rx=Math.max(4,Math.min(88,drag.rx+dy*.35));rot()}});
+addEventListener('pointerup',()=>{drag=null;stage.classList.remove('dr')});
+let wt;addEventListener('wheel',e=>{e.preventDefault();zm=Math.max(.35,Math.min(3,zm*(e.deltaY<0?1.08:.92)));stage.classList.add('dr');clearTimeout(wt);wt=setTimeout(()=>stage.classList.remove('dr'),200);fit()},{passive:false});
+rot();go(0,true);
+</script>
+</body>
+</html>
